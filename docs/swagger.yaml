@@ -1,0 +1,100 @@
+definitions:
+  wallet.DTO:
+    properties:
+      address:
+        type: string
+      balance:
+        type: number
+    type: object
+  web.PageableResponse:
+    properties:
+      data: {}
+      items:
+        type: string
+      page:
+        type: string
+    type: object
+  web.errResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+      status-code:
+        type: integer
+      time-stamp:
+        type: string
+    type: object
+info:
+  contact:
+    name: Ronilson Alves
+    url: https://www.linkedin.com/in/ronilsonalves
+  description: This API handle query to check crypto wallet info such as balance,
+    transactions...
+  license:
+    name: MIT
+    url: https://github.com/ronilsonalves/go-wallet-watcher/blob/main/LICENSE.md
+  termsOfService: https://github.com/ronilsonalves/go-wallet-watcher/blob/main/LICENSE.md
+  title: Go Wallet Watcher API
+  version: "1.0"
+paths:
+  /eth/wallets/{address}:
+    get:
+      consumes:
+      - application/json
+      description: Get wallet info from an address
+      parameters:
+      - description: Wallet address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wallet.DTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errResponse'
+      summary: Get a wallet info and balance from a wallet address
+      tags:
+      - Wallets
+  /eth/wallets/{address}/transactions:
+    get:
+      consumes:
+      - application/json
+      description: Get wallet info from an address
+      parameters:
+      - description: Wallet address
+        in: path
+        name: address
+        required: true
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: string
+      - description: Items per page
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/web.PageableResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errResponse'
+      summary: Retrieves up to 10000 transactions by given adrress in a paggeable
+        response
+      tags:
+      - Wallets
+swagger: "2.0"
